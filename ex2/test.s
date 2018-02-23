@@ -11,7 +11,7 @@ _start:
   pushl %eax
 
   pushl $2
-  pushl $4
+  pushl $0
   call power
   addl $8, %esp
 
@@ -30,6 +30,9 @@ power:
   movl 8(%ebp), %ebx
   movl 12(%ebp), %ecx
   
+  cmpl $0, %ebx
+  je power_one
+
   movl %ecx, -4(%ebp)
 
 power_start_loop:
@@ -48,3 +51,7 @@ end_power:
   movl %ebp, %esp
   popl %ebp
   ret
+
+power_one:
+  movl $1, -4(%ebp)
+  jmp end_power
